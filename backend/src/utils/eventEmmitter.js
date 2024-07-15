@@ -1,7 +1,4 @@
+// src/utils/eventEmitter.js
 const EventEmitter = require('events');
-
-
-class MyEmitter extends EventEmitter{}
-const eventEmitter = new MyEmitter();
-
-module.exports=eventEmitter;
+const eventEmitter = new EventEmitter();
+module.exports = eventEmitter;

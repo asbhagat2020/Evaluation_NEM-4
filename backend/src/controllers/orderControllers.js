@@ -1,7 +1,8 @@
+// src/controllers/orderController.js
 const Order = require("../models/Order");
 const Customer = require("../models/Customer");
-const eventEmitter = require("../utils/eventEmmitter");
 const sendEmail = require("../utils/email");
+const eventEmitter = require("../utils/eventEmmitter");
 
 exports.createOrder = async (req, res) => {
     try {
@@ -13,8 +14,22 @@ exports.createOrder = async (req, res) => {
     }
 };
 
-eventEmitter.on('orderPlaced', async(order)=>{
-    const Customer = await Customer.findByPk(order.customerId);
-    sendEmail(customer.email, `Order Confirmation, Yourt order ${order.id} has been placed successfully`);
-    console.log(`Order placed : ${order.id}`)
+exports.getOrdersByCustomer = async (req, res) => {
+    try {
+        const customerId = req.params.customerId;
+        const orders = await Order.findAll({ where: { customerId } });
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+eventEmitter.on('orderPlaced', async (order) => {
+    const customer = await Customer.findByPk(order.customerId);
+    if (customer) {
+        sendEmail(customer.email, `Order Confirmation: Your order ${order.id} has been placed successfully`);
+        console.log(`Order placed: ${order.id}`);
+    } else {
+        console.log(`Customer not found for order: ${order.id}`);
+    }
 });
