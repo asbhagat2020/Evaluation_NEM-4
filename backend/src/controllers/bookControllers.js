@@ -1,4 +1,4 @@
-const eventEmitter = require("../../utils/eventEmitter");
+const eventEmitter = require("../utils/eventEmitter");
 const Book = require("../models/Book");
 
 exports.addBook = async (req, res) => {
@@ -7,7 +7,7 @@ exports.addBook = async (req, res) => {
 
         const newBook = await Book.create({ title, author, isbn, publishedDate });
         
-        // Emit event for new book addition
+       
         eventEmitter.emit('bookAdded', newBook._id);
 
         res.status(201).json(newBook);

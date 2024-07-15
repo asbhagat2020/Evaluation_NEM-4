@@ -9,8 +9,8 @@ const connectDB = require("./src/configs/mongo.db");
 const cors = require("cors");
 const http = require('http');
 const socketIo = require('socket.io');
-const logger = require("./utils/logger");
-const eventEmitter = require("./utils/eventEmitter");
+const logger = require("./src/utils/logger");
+const eventEmitter = require("./src/utils/eventEmitter");
 
 
 dotenv.config();

@@ -1,6 +1,6 @@
 const Order = require("../models/Order");
 const Customer = require("../models/Customer");
-const eventEmitter = require("../../utils/eventEmitter");
+const eventEmitter = require("../utils/eventEmitter");
 
 
 exports.placeOrder = async (req, res) => {
@@ -9,7 +9,7 @@ exports.placeOrder = async (req, res) => {
 
         const newOrder = await Order.create({ customerId, total });
         
-        // Emit event for new order placement
+       
         eventEmitter.emit('orderPlaced', newOrder._id, customerId);
 
         res.status(201).json(newOrder);
